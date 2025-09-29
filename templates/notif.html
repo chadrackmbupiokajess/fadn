@@ -1,0 +1,17 @@
+{% load static %}
+
+<!-- Section pour les notifications -->
+<div class="notifications-icon">
+    <a href="{% url 'notifications' %}" class="btn btn-light position-relative">
+        <!-- Utilisez une icône de votre choix (par exemple, FontAwesome) -->
+        <i class="bi bi-bell"></i>
+        {% if unread_count > 0 %}
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            {{ unread_count }}
+        </span>
+        {% endif %}
+    </a>
+</div>
+
+
+<!-- Fin de la section des notifications -->

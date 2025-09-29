@@ -1,0 +1,25 @@
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Post, Message
+from django.contrib.auth.models import User
+from django.utils import timezone
+
+def discussion_group(request, post_id):
+    # Récupérer le post
+    post = get_object_or_404(Post, id=post_id)
+
+    # Récupérer tous les messages associés à ce post
+    messages = Message.objects.filter(post=post).order_by('timestamp')
+
+    if request.method == 'POST':
+        # Créer un nouveau message
+        message_content = request.POST.get('message')
+        new_message = Message(
+            post=post,
+            user=request.user,
+            content=message_content,
+            timestamp=timezone.now()
+        )
+        new_message.save()
+        return redirect('discussion_group', post_id=post.id)
+
+    return render(request, 'discussion_group.html', {'post': post, 'messages': messages})

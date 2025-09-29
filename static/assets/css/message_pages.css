@@ -1,0 +1,109 @@
+/*--------------------------------------------------------------
+# Message Pages Styles (success.html, etc.)
+--------------------------------------------------------------*/
+.message-section {
+  min-height: 80vh; /* Adjust as needed */
+  padding: 60px 0;
+  background-color: #f0f2f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.message-card {
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  padding: 40px;
+  text-align: center;
+}
+
+.message-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #10b981; /* Success green */
+  margin-bottom: 20px;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.message-title::after {
+  content: '';
+  width: 50px;
+  height: 3px;
+  background: #10b981;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 2px;
+}
+
+.message-icon {
+  font-size: 60px;
+  color: #10b981;
+  margin-bottom: 20px;
+}
+
+.message-text {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.btn-message-action {
+  background: #149ddd;
+  border: none;
+  padding: 12px 25px;
+  color: #fff;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-message-action:hover {
+  background: #37b3ed;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(20, 157, 221, 0.3);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .message-card {
+    padding: 30px;
+  }
+
+  .message-title {
+    font-size: 24px;
+  }
+
+  .message-icon {
+    font-size: 50px;
+  }
+
+  .message-text {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .message-card {
+    padding: 20px;
+  }
+
+  .message-title {
+    font-size: 22px;
+  }
+
+  .message-icon {
+    font-size: 40px;
+  }
+
+  .btn-message-action {
+    width: 100%;
+  }
+}

@@ -1,0 +1,34 @@
+{% extends 'basic.html' %}
+{% load static %}
+
+{% block title %} Profil {% endblock title %}
+
+{% block extra_head %}
+<link href="{% static 'assets/css/profile.css' %}" rel="stylesheet">
+{% endblock extra_head %}
+
+{% block body %}
+
+<section class="profile-section d-flex align-items-center justify-content-center">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6 col-md-8 col-sm-10 col-12">
+        <div class="profile-card">
+          {% if profil.profile_photo %}
+            <img src="{{ profil.profile_photo.url }}" alt="{{ profil.desc }}" class="profile-photo">
+          {% else %}
+            <img src="{% static 'assets/img/default-profile.png' %}" alt="Default Profile Photo" class="profile-photo">
+          {% endif %}
+          <h1 class="profile-name">{{ user.username }}</h1>
+          {% if profil.desc %}
+            <p class="profile-description">{{ profil.desc }}</p>
+          {% else %}
+            <p class="profile-description">Aucune description de profil pour le moment.</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock body %}

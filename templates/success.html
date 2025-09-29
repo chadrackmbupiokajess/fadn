@@ -1,0 +1,27 @@
+{% extends 'basic.html' %}
+{% load static %}
+
+{% block title %} Succès {% endblock title %}
+
+{% block extra_head %}
+<link href="{% static 'assets/css/message_pages.css' %}" rel="stylesheet">
+{% endblock extra_head %}
+
+{% block body %}
+
+<section class="message-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6 col-md-8 col-sm-10 col-12">
+        <div class="message-card">
+          <i class="fas fa-check-circle message-icon"></i>
+          <h3 class="message-title">Votre message a été envoyé avec succès</h3>
+          <p class="message-text">Nous vous remercions de nous avoir contactés. Nous vous répondrons dans les plus brefs délais.</p>
+          <a href="/" class="btn btn-message-action">Retour à l'accueil</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock body %}

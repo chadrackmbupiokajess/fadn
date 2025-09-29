@@ -1,0 +1,67 @@
+{% load static %}
+
+<li class="comment-thread">
+    <div class="comment">
+        <div class="comment-avatar"><i class="fas fa-user"></i></div>
+        <div class="comment-content">
+            <strong class="comment-author">
+                {% if comment.user and comment.user.get_full_name %}
+                    {{ comment.user.get_full_name }}
+                {% else %}
+                    {{ comment.commenter_name }}
+                {% endif %}
+            </strong>
+            <p class="comment-meta"><small>{{ comment.date_added|date:"d F Y, H:i" }}</small></p>
+            <p class="comment-body">{{ comment.comment_body }}</p>
+            
+            <div class="comment-actions">
+                {% if user.is_authenticated %}
+                    <!-- Like Button -->
+                    <form action="{% url 'like-comment' comment.id %}" method="post" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-like-comment {% if user in comment.liked_by.all %}liked{% endif %}">
+                            <i class="fas fa-thumbs-up"></i>
+                        </button>
+                    </form>
+                    <span class="like-count">{{ comment.likes }}</span>
+
+                    <!-- Reply Button -->
+                    <button class="btn-reply" onclick="toggleReplyForm('{{ comment.id }}')">Répondre</button>
+                {% endif %}
+
+                {% if user.username == comment.user.username %}
+                    <form action="{% url 'delete-comment' comment.id %}" method="post" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-delete-comment">Supprimer</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Reply Form (hidden) for this comment -->
+    {% if user.is_authenticated %}
+    <div class="reply-form" id="reply-form-{{ comment.id }}" style="display: none;">
+        <form method="post" action="{% url 'add-comment' post.id %}" class="comment-form">
+            {% csrf_token %}
+            <div class="comment-avatar"><i class="fas fa-user"></i></div>
+            <div class="comment-form-content">
+                <input type="hidden" name="parent" value="{{ comment.id }}">
+                <textarea name="comment_body" class="form-control" rows="2" placeholder="Répondre à {{ comment.user.get_full_name|default:comment.commenter_name }}..." required></textarea>
+                <button type="submit" class="btn btn-primary btn-sm mt-2 btn-submit-comment">Répondre</button>
+            </div>
+        </form>
+    </div>
+    {% endif %}
+
+    <!-- Render Replies Recursively -->
+    {% if comment.replies.all %}
+    <div class="replies">
+        <ul class="comment-list">
+            {% for reply in comment.replies.all %}
+                {% include 'partials/comment.html' with comment=reply %}
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+</li>

@@ -1,0 +1,302 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta name="google-site-verification" content="UAFh6H6rawk2vvCTyYJ49NM_S9Yt_7MppYgK9Y-h914" />
+
+  <title>{% block title %}FADN{% endblock title %}</title>
+  <meta name="description" content="Page de la fondation Andy Disu Nsangu - Découvrez nos activités, publications et vidéos.">
+  <meta name="keywords" content="FADN, Fondation Andy Disu Nsangu, Bienvenue, Logo, Publications, Vidéos">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/css/comments.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/css/notifications.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/css/message_pages.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/css/discussion.css' %}" rel="stylesheet">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="{% static 'assets/img/logo.png' %}" type="image/x-icon">
+
+  {% block stylecss %}{% endblock stylecss %}
+  {% block extra_head %}{% endblock extra_head %}
+</head>
+
+<body>
+  <!-- ======= Mobile Header ======= -->
+  <div class="mobile-header">
+    <a href="/" class="sidebar-brand">
+      <img src="{% static 'assets/img/logo_fadn.png' %}" alt="FADN Logo" class="sidebar-logo">
+      <div class="sidebar-brand-text">
+        <span class="sidebar-brand-name">FADN</span>
+        <span class="sidebar-brand-subtitle">Fondation Andy Disu Nsangu</span>
+      </div>
+    </a>
+  </div>
+
+  <i class="bi bi-list mobile-nav-toggle"></i>
+  <!-- Container principal pour la répartition parfaite -->
+  <div class="page-container">
+    <!-- Navbar moderne à gauche : 15% -->
+    <nav class="left-sidebar modern-left-nav">
+    <div class="sidebar-content">
+      <!-- Logo et marque -->
+      <div class="sidebar-header">
+        <a href="/" class="sidebar-brand">
+          <img src="{% static 'assets/img/logo_fadn.png' %}" alt="FADN Logo" class="sidebar-logo">
+          <div class="sidebar-brand-text">
+            <span class="sidebar-brand-name">FADN</span>
+            <span class="sidebar-brand-subtitle">Fondation Andy Disu Nsangu</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- Informations utilisateur -->
+      <div class="sidebar-user">
+        <div class="user-info-sidebar">
+          <i class="fas fa-user-circle"></i>
+          <span>{{ user.username|default:"Visiteur" }}</span>
+        </div>
+      </div>
+
+      <!-- Navigation principale -->
+      <div class="sidebar-nav">
+        <ul class="nav-list-sidebar">
+          <li class="nav-item-sidebar">
+            <a href="/" class="nav-link-sidebar active">
+              <div class="nav-icon-sidebar">
+                <i class="fas fa-home"></i>
+              </div>
+              <span class="nav-text-sidebar">Accueil</span>
+            </a>
+          </li>
+          <li class="nav-item-sidebar">
+            <a href="/about" class="nav-link-sidebar">
+              <div class="nav-icon-sidebar">
+                <i class="fas fa-info-circle"></i>
+              </div>
+              <span class="nav-text-sidebar">À propos</span>
+            </a>
+          </li>
+          <li class="nav-item-sidebar">
+            <a href="/blog" class="nav-link-sidebar">
+              <div class="nav-icon-sidebar">
+                <i class="fas fa-newspaper"></i>
+              </div>
+              <span class="nav-text-sidebar">Publications</span>
+            </a>
+          </li>
+          <li class="nav-item-sidebar">
+            <a href="/contacts" class="nav-link-sidebar">
+              <div class="nav-icon-sidebar">
+                <i class="fas fa-envelope"></i>
+              </div>
+              <span class="nav-text-sidebar">Contact</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Séparateur -->
+      <div class="sidebar-separator"></div>
+
+      <!-- Boutons d'authentification -->
+      <div class="sidebar-auth">
+        {% if not request.user.is_authenticated %}
+          <a href="/auth/login/" class="sidebar-auth-btn login">
+            <i class="fas fa-sign-in-alt"></i>
+            <span>Se connecter</span>
+          </a>
+          <a href="/auth/signup/" class="sidebar-auth-btn signup">
+            <i class="fas fa-user-plus"></i>
+            <span>S'inscrire</span>
+          </a>
+        {% else %}
+          <a href="/auth/logout/" class="sidebar-auth-btn logout">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Se déconnecter</span>
+          </a>
+        {% endif %}
+      </div>
+
+      <!-- Réseaux sociaux -->
+      <div class="sidebar-social">
+        <div class="social-title">Suivez-nous</div>
+        <div class="social-links-sidebar">
+          <a href="#" class="social-link-sidebar youtube">
+            <i class="bx bxl-youtube"></i>
+          </a>
+          <a href="#" class="social-link-sidebar facebook">
+            <i class="bx bxl-facebook"></i>
+          </a>
+          <a href="https://www.instagram.com/ark__dev/" target="_blank" class="social-link-sidebar instagram">
+            <i class="bx bxl-instagram"></i>
+          </a>
+          <a href="#" class="social-link-sidebar whatsapp">
+            <i class="bx bxl-whatsapp"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+    <!-- Contenu principal : 85% -->
+    <div class="main-content-wrapper">
+      <!-- Hero Section -->
+      {% block hero %}{% endblock hero %}
+
+      <main id="main">
+        {% block body %}{% endblock body %}
+      </main>
+
+      <section>
+        {% block content %}{% endblock %}
+      </section>
+    </div>
+  </div> <!-- Fin du page-container -->
+
+  <!-- Footer modernisé en bas -->
+  <footer class="bottom-footer modern-bottom-footer">
+    <!-- Vague décorative en haut du footer -->
+    <div class="footer-wave-top">
+      <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" class="shape-fill"></path>
+        <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" class="shape-fill"></path>
+        <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" class="shape-fill"></path>
+      </svg>
+    </div>
+
+    <div class="container">
+      <div class="footer-content-bottom">
+        <!-- Section principale du footer -->
+        <div class="footer-main-bottom">
+          <div class="row-footer">
+            <!-- Colonne logo et mission -->
+            <div class="col-lg-4 col-md-6 mb-4">
+              <div class="footer-brand-section">
+                <div class="footer-logo-bottom">
+                  <img src="{% static 'assets/img/logo_fadn.png' %}" alt="FADN Logo" class="footer-logo-img-bottom">
+                  <div class="footer-brand-text">
+                    <h3>FADN</h3>
+                    <p>Fondation Andy Disu Nsangu</p>
+                  </div>
+                </div>
+                <div class="footer-mission-bottom">
+                  <p>"Transformer des vies, construire l'avenir"</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Colonne navigation rapide -->
+            <div class="col-lg-2 col-md-6 mb-4">
+              <h4>Navigation</h4>
+              <ul class="footer-links">
+                <li><a href="/">Accueil</a></li>
+                <li><a href="/about">À propos</a></li>
+                <li><a href="/blog">Publications</a></li>
+                <li><a href="/contacts">Contact</a></li>
+              </ul>
+            </div>
+
+            <!-- Colonne informations -->
+            <div class="col-lg-3 col-md-6 mb-4">
+              <h4>Informations</h4>
+              <div class="footer-info">
+                <div class="info-item">
+                  <i class="fas fa-user-tie"></i>
+                  <span>Fondateur: <strong>Andy Disu Nsangu</strong></span>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-heart"></i>
+                  <span>Fondation Humanitaire</span>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-globe"></i>
+                  <span>Impact mondial</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Colonne réseaux sociaux -->
+            <div class="col-lg-3 col-md-6 mb-4">
+              <h4>Suivez-nous</h4>
+              <div class="footer-social-bottom">
+                <a href="#" class="footer-social-link-bottom youtube">
+                  <i class="bx bxl-youtube"></i>
+                  <span>YouTube</span>
+                </a>
+                <a href="#" class="footer-social-link-bottom facebook">
+                  <i class="bx bxl-facebook"></i>
+                  <span>Facebook</span>
+                </a>
+                <a href="https://www.instagram.com/ark__dev/" target="_blank" class="footer-social-link-bottom instagram">
+                  <i class="bx bxl-instagram"></i>
+                  <span>Instagram</span>
+                </a>
+                <a href="#" target="_blank" class="footer-social-link-bottom whatsapp">
+                  <i class="bx bxl-whatsapp"></i>
+                  <span>Whatsapp</span>
+                </a>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ligne de séparation -->
+        <hr class="footer-divider">
+
+        <!-- Section copyright --><div class="footer-bottom-section w-100">
+  <div class="cpy-foot  w-100 align-items-center justify-content-between">
+
+      <div class="copyright-bottom">
+        <i class="fas fa-copyright"></i>
+        <span>2024 <strong>FADN</strong> - Tous droits réservés</span>
+      </div>
+
+
+      <div class="footer-credits">
+        <span>Développé avec <i class="fas fa-heart text-danger"></i> pour l'humanité</span>
+      </div>
+
+  </div>
+</div>
+
+      </div>
+    </div>
+  </footer>
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'assets/vendor/aos/aos.js' %}" defer></script>
+  <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}" defer></script>
+  <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}" defer></script>
+  <script src="{% static 'assets/vendor/isotope-layout/isotope.pkgd.min.js' %}" defer></script>
+  <script src="{% static 'assets/vendor/php-email-form/validate.js' %}" defer></script>
+  <script src="{% static 'assets/vendor/purecounter/purecounter.js' %}" defer></script>
+  <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}" defer></script>
+  <script src="{% static 'assets/vendor/typed.js/typed.min.js' %}" defer></script>
+  <script src="{% static 'assets/vendor/waypoints/noframework.waypoints.js' %}" defer></script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'assets/js/main.js' %}" defer></script>
+
+  {% block scripts %}{% endblock scripts %}
+</body>
+
+</html>

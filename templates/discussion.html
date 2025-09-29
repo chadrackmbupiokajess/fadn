@@ -1,0 +1,123 @@
+{% extends 'basic.html' %}
+{% load static %}
+
+{% block title %} Discussion {% endblock title %}
+
+{% block extra_head %}
+<link href="{% static 'assets/css/discussion.css' %}" rel="stylesheet">
+{% endblock extra_head %}
+
+{% block body %}
+
+<section class="discussion-section-wrapper d-flex align-items-center justify-content-center">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10 col-12">
+                <div class="discussion-card">
+                    <h3>Discussion</h3>
+
+                    <!-- Liste des messages -->
+                    <div id="message-list" class="message-list">
+                        <!-- Les messages apparaîtront ici -->
+                        <p>Aucune discussion pour l'instant...</p>
+                    </div>
+
+                    <!-- Formulaire pour envoyer un message -->
+                    <form id="discussion-form" onsubmit="sendMessage(event)" class="discussion-form">
+                        <input type="text" id="sender" class="form-control" placeholder="Votre nom" required>
+                        <textarea id="message" class="form-control" placeholder="Votre message" rows="3" required></textarea>
+                        <button type="submit" class="btn-submit-message"><i class="fas fa-paper-plane"></i>s</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Fonction pour charger les messages existants
+    function loadMessages() {
+        fetch('/discussion/1/') // Changer l'URL en fonction de votre configuration
+            .then(response => response.json())
+            .then(data => {
+                const messageList = document.getElementById('message-list');
+                messageList.innerHTML = ''; // Réinitialiser la liste
+
+                if (data.messages.length === 0) {
+                    messageList.innerHTML = '<p>Aucune discussion pour l\'instant...</p>';
+                } else {
+                    data.messages.forEach(msg => {
+                        const messageItem = document.createElement('div');
+                        messageItem.classList.add('message-item');
+                        // Simple logic to differentiate sender for now
+                        if (msg.sender === document.getElementById('sender').value) { // Assuming sender input is current user
+                            messageItem.classList.add('self');
+                        } else {
+                            messageItem.classList.add('other');
+                        }
+                        messageItem.innerHTML = `
+                            <strong>${msg.sender}</strong> 
+                            ${msg.message} 
+                            <small>${new Date(msg.timestamp).toLocaleString()}</small>`;
+                        messageList.appendChild(messageItem);
+                    });
+                    messageList.scrollTop = messageList.scrollHeight; // Scroll to bottom
+                }
+            })
+            .catch(error => {
+                console.error('Erreur lors du chargement des messages :', error);
+            });
+    }
+
+    // Fonction pour envoyer un message
+    function sendMessage(event) {
+        event.preventDefault(); // Empêche le rechargement de la page
+
+        const sender = document.getElementById('sender').value;
+        const message = document.getElementById('message').value;
+
+        if (!sender || !message) return; // Prevent sending empty messages
+
+        fetch('/discussion/1/', { // Changer l'URL en fonction de votre configuration
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken') // Assurez-vous que getCookie est défini ou utilisez une autre méthode
+            },
+            body: JSON.stringify({ sender, message })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                loadMessages(); // Recharger les messages après envoi
+                document.getElementById('message').value = ''; // Réinitialiser le champ message
+            } else {
+                alert('Erreur lors de l\'envoi du message.');
+            }
+        })
+        .catch(error => {
+            console.error('Erreur lors de l\'envoi du message :', error);
+        });
+    }
+
+    // Helper function to get CSRF token (if not already in basic.html)
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    // Charger les messages au démarrage
+    document.addEventListener('DOMContentLoaded', loadMessages);
+</script>
+
+{% endblock body %}

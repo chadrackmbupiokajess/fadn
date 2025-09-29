@@ -1,0 +1,54 @@
+{% extends 'basic.html' %}
+{% load static %}
+
+{% block title %} Recherche {% endblock title %}
+
+{% block extra_head %}
+<link href="{% static 'assets/css/search.css' %}" rel="stylesheet">
+{% endblock extra_head %}
+
+{% block body %}
+
+<section class="search-section">
+    <div class="container">
+        <div class="search-header">
+            <h2>Résultats de la recherche</h2>
+        </div>
+
+        <div class="search-controls">
+            <a href="/blog" class="btn btn-view-publications">Voir toutes les publications</a>
+            <form class="search-input-group" action="{% url 'search' %}" method="GET">
+                <input type="search" class="form-control" placeholder="Recherche" aria-label="Search" name="publication" value="{{ request.GET.publication }}"/>
+                <button type="submit" class="btn btn-search"><i class="fas fa-search"></i></button>
+            </form>
+        </div>
+
+        <div class="search-results-grid">
+            {% if liste_publication %}
+                {% for post in liste_publication %}
+                    <a href="{% url 'detail' post.id %}" class="search-result-card">
+                        {% if post.img %}
+                            <img src="{{ post.img.url }}" class="img-fluid" alt="{{ post.title }}">
+                        {% else %}
+                            <img src="{% static 'assets/img/default-post.png' %}" class="img-fluid" alt="Image par défaut">
+                        {% endif %}
+                        <div class="search-result-card-body">
+                            <h3>{{ post.title }}</h3>
+                            <p class="description">{{ post.description|truncatewords:20|safe }}</p>
+                            <h6>Publié par : <b>{{ post.authname }}</b></h6>
+                            <p>Publié il y a : <b>{{ post.timeStamp|timesince }}</b></p>
+                            <span class="btn-read-more">Lire la suite</span>
+                        </div>
+                    </a>
+                {% endfor %}
+            {% else %}
+                <div class="col-12 no-results-message">
+                    <h4>Aucun résultat trouvé pour votre recherche.</h4>
+                    <p>Veuillez essayer un autre terme de recherche ou <a href="/blog">voir toutes les publications</a>.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+{% endblock body %}

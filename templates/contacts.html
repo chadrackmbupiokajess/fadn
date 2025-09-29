@@ -1,0 +1,81 @@
+{% extends 'basic.html' %}
+{% load static %}
+
+{% block title %} Contactez-nous {% endblock title %}
+
+{% block extra_head %}
+<link href="{% static 'assets/css/auth.css' %}" rel="stylesheet">
+{% endblock extra_head %}
+
+{% block body %}
+
+<section class="auth-section d-flex align-items-center">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6 col-md-7 col-sm-9 col-12">
+        <div class="auth-card">
+          <h3 class="auth-title text-center p-3">Écrivez-nous</h3>
+
+          {% for message in messages %}
+          <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+            <strong>{{message}} </strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          {% endfor %}
+
+          <form method="post" class="auth-form">
+            {% csrf_token %}
+
+            <div class="form-group mb-3">
+              <label for="id_name" class="form-label">
+                <i class="bx bx-user"></i> Nom complet
+              </label>
+              <input type="text" name="name" id="id_name" class="form-control" value="{{ form.name.value|default_if_none:'' }}" required>
+              {% for error in form.name.errors %}
+                  <div class="alert alert-danger">{{ error }}</div>
+              {% endfor %}
+            </div>
+
+            <div class="form-group mb-3">
+              <label for="id_email" class="form-label">
+                <i class="bx bx-envelope"></i> Email
+              </label>
+              <input type="email" name="email" id="id_email" class="form-control" value="{{ form.email.value|default_if_none:'' }}" required>
+              {% for error in form.email.errors %}
+                  <div class="alert alert-danger">{{ error }}</div>
+              {% endfor %}
+            </div>
+
+            <div class="form-group mb-3">
+              <label for="id_phone" class="form-label">
+                <i class="bx bx-phone"></i> Numéro de téléphone
+              </label>
+              <input type="text" name="phone" id="id_phone" class="form-control" value="{{ form.phone.value|default_if_none:'' }}" required>
+              {% for error in form.phone.errors %}
+                  <div class="alert alert-danger">{{ error }}</div>
+              {% endfor %}
+            </div>
+
+            <div class="form-group mb-3">
+              <label for="id_message" class="form-label">
+                <i class="bi bi-pencil-square"></i> Comment puis-je vous aider ?
+              </label>
+              <textarea name="message" id="id_message" class="form-control" rows="5" required>{{ form.message.value|default_if_none:'' }}</textarea>
+              {% for error in form.message.errors %}
+                  <div class="alert alert-danger">{{ error }}</div>
+              {% endfor %}
+            </div>
+
+            <div class="d-grid gap-2 mt-4">
+              <button class="btn btn-primary auth-btn" type="submit">
+                <i class="bx bx-send"></i> Envoyer
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock body %}

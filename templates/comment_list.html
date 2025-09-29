@@ -1,0 +1,23 @@
+{% extends 'basic.html' %}
+{% load static %}
+
+{% block title %} Liste des commentaires {% endblock title %}
+
+{% block body %}
+<section class="comments-section py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10 col-12">
+                <h3>Tous les commentaires</h3>
+                <ul class="comment-list">
+                    {% for comment in comments %}
+                        {% include 'partials/comment.html' with comment=comment %}
+                    {% empty %}
+                        <li><p>Aucun commentaire disponible.</p></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock body %}

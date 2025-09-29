@@ -1,0 +1,147 @@
+{% extends 'basic.html' %}
+{% load static %}
+{% block title %}Publication{% endblock title %}
+
+{% block extra_head %}
+<link href="{% static 'assets/css/detail.css' %}" rel="stylesheet">
+{% endblock extra_head %}
+
+{% block body %}
+
+
+<section id="about" class="about">
+    <div class="container">
+        <div class="row" data-aos="fade-up">
+            <div class="col-lg-8 col-md-8 icon-box">
+                
+                <article class="post-container">
+                    <header class="post-header">
+                        <h1 class="post-title">{{ post.title }}</h1>
+                        <div class="post-meta">
+                            <span class="meta-item"><i class="fas fa-user"></i> <b>{{ post.authname }}</b></span>
+                            <span class="meta-item"><i class="fas fa-calendar-alt"></i> <b>{{ post.timeStamp|date:"d F Y" }}</b></span>
+                        </div>
+                    </header>
+
+                    {% if post.media_type == 'image' and post.img %}
+                        <img src="{{ post.img.url }}" class="img-fluid detail-img" alt="{{ post.title }}">
+                    {% elif post.media_type == 'video' and post.video %}
+                        <video controls class="img-fluid detail-img">
+                            <source src="{{ post.video.url }}" type="video/mp4">
+                            Votre navigateur ne supporte pas la balise vidéo.
+                        </video>
+                    {% endif %}
+
+                    <div class="post-content">
+                        {{ post.description|safe }}
+                    </div>
+
+                    <div class="post-actions">
+                        <div class="metrics">
+                            <span><i class="fas fa-eye"></i> {{ post.views }} Vues</span>
+                            <span><i class="fas fa-heart"></i> {{ post.likes }} Likes</span>
+                        </div>
+
+                        {% if user.is_authenticated %}
+                        <form method="post" action="{% url 'detail' post.id %}" class="like-form">
+                            {% csrf_token %}
+                            {% if user_has_liked %}
+                                <button type="submit" name="like" class="btn btn-like liked">
+                                    <i class="fas fa-heart"></i> Aimé
+                                </button>
+                            {% else %}
+                                <button type="submit" name="like" class="btn btn-like">
+                                    <i class="far fa-heart"></i> Aimer
+                                </button>
+                            {% endif %}
+                        </form>
+                        {% else %}
+                            <a href="/auth/login/?next={{ request.path }}" class="btn btn-like-login">
+                                <i class="far fa-heart"></i> Se connecter pour aimer
+                            </a>
+                        {% endif %}
+                    </div>
+                </article>
+
+                <div class="comments-section">
+                    <h5>Commentaires ({{ num_comments }})</h5>
+                    <ul class="comment-list">
+                        {% for comment in comments %}
+                            {% include 'partials/comment.html' with comment=comment %}
+                        {% empty %}
+                        <li><p>Aucun commentaire pour le moment. Soyez le premier à commenter !</p></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                
+                <!-- Main Comment Form -->
+                <div class="comment-form-container">
+                    {% if user.is_authenticated %}
+                        <h2>Ajouter un commentaire</h2>
+                        <form method="post" action="{% url 'add-comment' post.id %}" class="comment-form">
+                            {% csrf_token %}
+                            <div class="comment-avatar"><i class="fas fa-user"></i></div>
+                            <div class="comment-form-content">
+                                <textarea name="comment_body" class="form-control" rows="4" placeholder="Écrivez votre commentaire..." required></textarea>
+                                <button type="submit" class="btn btn-primary mt-2 btn-submit-comment">Commenter</button>
+                            </div>
+                        </form>
+                    {% else %}
+                        <div class="login-prompt">
+                            <p>Vous devez être connecté pour commenter. <a href="/auth/login/?next={{ request.path }}">Se connecter</a></p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4 icon-box related-posts-container">
+                <div class="section-title">
+                    <h2>Publications en relation</h2>
+                </div>
+                {% if related_posts %}
+                    {% for related_post in related_posts %}
+                        <a href="{% url 'detail' related_post.id %}" class="related-post-card">
+                            {% if related_post.media_type == 'image' and related_post.img %}
+                                <img src="{{ related_post.img.url }}" class="related-post-img" alt="{{ related_post.title }}">
+                            {% elif related_post.media_type == 'video' and related_post.video %}
+                                 <video class="related-post-img" muted loop onmouseover="this.play()" onmouseout="this.pause();this.currentTime=0;">
+                                    <source src="{{ related_post.video.url }}" type="video/mp4">
+                                </video>
+                            {% else %}
+                                <div class="related-post-img" style="background-color: #e9ecef; display:flex; align-items:center; justify-content:center; color: #6c757d;">
+                                    <i class="fas fa-image fa-2x"></i>
+                                </div>
+                            {% endif %}
+                            <div class="related-post-body">
+                                <h6 class="related-post-title">{{ related_post.title }}</h6>
+                                <p class="related-post-excerpt">{{ related_post.description|striptags|truncatewords:20 }}</p>
+                            </div>
+                        </a>
+                    {% endfor %}
+                {% else %}
+                    <p>Aucune publication en relation</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+function toggleReplyForm(commentId) {
+    // Hide all other reply forms
+    document.querySelectorAll('.reply-form').forEach(form => {
+        if (form.id !== 'reply-form-' + commentId) {
+            form.style.display = 'none';
+        }
+    });
+    // Toggle the selected one
+    var form = document.getElementById('reply-form-' + commentId);
+    if (form.style.display === 'none') {
+        form.style.display = 'block';
+    } else {
+        form.style.display = 'none';
+    }
+}
+</script>
+
+{% endblock body %}

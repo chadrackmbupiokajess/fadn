@@ -1,0 +1,253 @@
+/*--------------------------------------------------------------
+# Comments Section Styles
+--------------------------------------------------------------*/
+.comments-section {
+  margin-top: 40px;
+}
+
+.comments-section h3 {
+  font-size: 28px;
+  font-weight: 600;
+  color: #173b6c;
+  margin-bottom: 25px;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.comments-section h3::after {
+  content: '';
+  width: 50px;
+  height: 3px;
+  background: #149ddd;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  border-radius: 2px;
+}
+
+.comment-list {
+  list-style: none;
+  padding: 0;
+}
+
+.comment-thread {
+  margin-bottom: 20px;
+  border-left: 3px solid #eee;
+  padding-left: 15px;
+}
+
+.comment {
+  display: flex;
+  align-items: flex-start;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  padding: 15px;
+  margin-bottom: 10px;
+}
+
+.comment-avatar {
+  width: 40px;
+  height: 40px;
+  min-width: 40px; /* Ensure avatar doesn't shrink */
+  border-radius: 50%;
+  background-color: #e9ecef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: #6c757d;
+  margin-right: 15px;
+}
+
+.comment-avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.comment-content {
+  flex-grow: 1;
+}
+
+.comment-author {
+  font-weight: 600;
+  color: #173b6c;
+  font-size: 16px;
+}
+
+.comment-meta {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 8px;
+}
+
+.comment-body {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.comment-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.btn-like-comment {
+  background: none;
+  border: none;
+  color: #6c757d;
+  cursor: pointer;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+.btn-like-comment:hover {
+  color: #149ddd;
+}
+
+.btn-like-comment.liked {
+  color: #149ddd;
+}
+
+.like-count {
+  font-size: 14px;
+  color: #6c757d;
+}
+
+.btn-reply, .btn-delete-comment {
+  background: none;
+  border: none;
+  color: #149ddd;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.btn-delete-comment {
+  color: #dc3545;
+}
+
+.btn-reply:hover {
+  color: #37b3ed;
+}
+
+.btn-delete-comment:hover {
+  color: #e65c6b;
+}
+
+.reply-form {
+  margin-top: 15px;
+  margin-left: 55px; /* Align with comment content */
+  display: flex;
+  align-items: flex-start;
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.reply-form .comment-avatar {
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
+  font-size: 14px;
+  margin-right: 10px;
+}
+
+.reply-form .comment-form-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.reply-form textarea {
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 8px 12px;
+  font-size: 14px;
+  resize: vertical;
+}
+
+.reply-form .btn-submit-comment {
+  align-self: flex-end;
+  background: #149ddd;
+  border: none;
+  color: #fff;
+  padding: 8px 15px;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.reply-form .btn-submit-comment:hover {
+  background: #37b3ed;
+}
+
+.replies {
+  margin-top: 15px;
+  margin-left: 20px; /* Indent replies */
+}
+
+.replies .comment-list {
+  border-left: 3px solid #eee;
+  padding-left: 15px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .comment {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .comment-avatar {
+    margin-bottom: 10px;
+    margin-right: 0;
+  }
+
+  .reply-form {
+    margin-left: 0;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .reply-form .comment-avatar {
+    margin-bottom: 10px;
+    margin-right: 0;
+  }
+
+  .comment-actions {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .comment {
+    padding: 10px;
+  }
+
+  .comment-author {
+    font-size: 15px;
+  }
+
+  .comment-body {
+    font-size: 14px;
+  }
+
+  .btn-like-comment, .btn-reply, .btn-delete-comment, .like-count {
+    font-size: 13px;
+  }
+
+  .reply-form textarea, .reply-form .btn-submit-comment {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+}

@@ -1,0 +1,71 @@
+/*--------------------------------------------------------------
+# Profile Page Styles (profile.html)
+--------------------------------------------------------------*/
+.profile-section {
+  padding: 60px 0;
+  background-color: #f8f9fa;
+}
+
+.profile-card {
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  padding: 40px;
+  text-align: center;
+}
+
+.profile-photo {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 5px solid #149ddd;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.profile-name {
+  font-size: 32px;
+  font-weight: 700;
+  color: #173b6c;
+  margin-bottom: 15px;
+}
+
+.profile-description {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #555;
+  text-align: justify;
+  margin-bottom: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .profile-card {
+    padding: 30px;
+  }
+
+  .profile-name {
+    font-size: 28px;
+  }
+
+  .profile-photo {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-card {
+    padding: 20px;
+  }
+
+  .profile-name {
+    font-size: 24px;
+  }
+
+  .profile-photo {
+    width: 100px;
+    height: 100px;
+  }
+}

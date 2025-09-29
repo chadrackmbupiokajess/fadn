@@ -1,0 +1,33 @@
+{% extends 'basic.html' %}
+{% load static %}
+
+{% block title %}Groupes de Discussion{% endblock title %}
+
+{% block extra_head %}
+<link href="{% static 'assets/css/group_list.css' %}" rel="stylesheet">
+{% endblock extra_head %}
+
+{% block body %}
+<section class="group-list-section d-flex align-items-center justify-content-center">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10 col-12">
+                <div class="group-list-card">
+                    <h2>Groupes de Discussion</h2>
+                    {% if groups %}
+                        <ul class="group-items">
+                            {% for group in groups %}
+                                <li class="group-item">
+                                    <a href="{% url 'group_chat' group.id %}">{{ group.name }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="no-groups-message">Aucun groupe de discussion disponible.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock body %}

@@ -1,0 +1,371 @@
+{% extends 'basic.html' %}
+{% block title %} Blog {% endblock title %}
+
+{% block body %}
+{% load static %}
+
+<section id="blog-posts-section" class="services">
+  <div class="container">
+    <div class="section-title">
+      <h2>Bienvenue au FADN</h2>
+
+      <!-- Formulaire combiné -->
+      <form class="form-inline" method="GET" action="">
+        <div class="input-group">
+          <input type="search" class="form-control" placeholder="Recherche" name="publication" value="{{ request.GET.publication }}" />
+          <select name="tag" class="form-control">
+              <option value="">Tous les tags</option>
+              {% for tag in tags %}
+                  <option value="{{ tag.name }}" {% if selected_tag == tag.name %}selected{% endif %}>{{ tag.name }}</option>
+              {% endfor %}
+          </select>
+          <select name="sort_by" class="form-control">
+              <option value="timestamp" {% if sort_by == 'timestamp' %}selected{% endif %}>Date</option>
+              <option value="views" {% if sort_by == 'views' %}selected{% endif %}>Vues</option>
+              <option value="likes" {% if sort_by == 'likes' %}selected{% endif %}>Likes</option>
+          </select>
+          <button type="submit" class="btn btn-primary">Appliquer</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="row">
+      {% if page_obj %}
+        {% for post in page_obj %}
+        <div class="col-lg-4 col-md-6 col-xl-4 col-12 icon-box" data-aos="fade-up">
+          <a href="{% url 'detail' post.id %}">
+            {% if post.media_type == 'image' and post.img %}
+              <img src="{{ post.img.url }}" class="img-fluid custom-img" alt="{{ post.title }} Image de publication Fondation Andy Disu Nsangu">
+            {% elif post.media_type == 'video' and post.video %}
+              <video controls class="img-fluid custom-img">
+                  <source src="{{ post.video.url }}" type="video/mp4">
+                  Votre navigateur ne supporte pas la balise vidéo.
+              </video>
+            {% endif %}
+          </a>
+          <div class="section-title">
+            <a href="{% url 'detail' post.id %}">
+              <h2 style="font-size:20px">{{ post.title }}</h2>
+            </a>
+            <div class="post-tags">
+              {% for tag in post.tags.all %}
+                <a href="?tag={{ tag.name }}" class="tag-badge">{{ tag.name }}</a>
+              {% endfor %}
+            </div>
+            <p class="description" style="text-align: justify">{{ post.description|truncatewords:20|safe }}</p>
+
+            <div class="post-meta-info">
+                Par <b>{{ post.authname }}</b> &middot; {{ post.timeStamp|timesince }}
+            </div>
+
+            <div class="post-stats">
+                <span class="stat-item"><i class="fas fa-eye"></i>{{ post.views }}</span>
+                <span class="stat-item"><i class="fas fa-thumbs-up"></i>{{ post.likes }}</span>
+            </div>
+
+            <div class="discussion-container">
+                {% if user.is_authenticated %}
+                    <a class="discussion-link" href="javascript:void(0)" onclick="toggleDiscussion('{{ post.id }}')">
+                        <i class="fas fa-comment"></i> Voir la discussion
+                    </a>
+                {% else %}
+                    <a class="discussion-link" href="/auth/login/?next={{ request.path }}?open_discussion={{ post.id }}">
+                        <i class="fas fa-key"></i> Voir la discussion
+                    </a>
+                {% endif %}
+            </div>
+
+            <a href="{% url 'detail' post.id %}" class="btn btn-primary" style="margin-top:10px">Lire la suite</a>
+          </div>
+        </div>
+
+        <!-- Modal de discussion pour chaque post -->
+        <div id="discussion-modal-{{ post.id }}" class="discussion-modal">
+          <div class="discussion-modal-content">
+            <div class="discussion-modal-header">
+              <h5>Discussion sur "{{ post.title }}"</h5>
+              <button class="maximize-button" onclick="toggleModalSize('{{ post.id }}')"><i class="fas fa-expand"></i></button>
+              <button class="close-button" onclick="toggleDiscussion('{{ post.id }}')">&times;</button>
+            </div>
+            <div class="discussion-modal-body" id="discussion-body-{{ post.id }}">
+              <!-- Les messages du chat seront chargés ici -->
+            </div>
+            <div class="discussion-modal-footer">
+              <input type="text" id="discussion-input-{{ post.id }}" placeholder="Écrivez un message...">
+              <button id="send-btn-{{ post.id }}" onclick="sendMessage('{{ post.id }}')">
+                  <i class="fas fa-paper-plane"></i>
+              </button>
+            </div>
+            <div class="discussion-error" id="discussion-error-{{ post.id }}"></div>
+            <div class="resize-handle resize-handle-tl"></div>
+            <div class="resize-handle resize-handle-tr"></div>
+            <div class="resize-handle resize-handle-bl"></div>
+            <div class="resize-handle resize-handle-br"></div>
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <div class="no-results">
+          <p>Aucune publication trouvée pour vos critères.</p>
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1&publication={{ request.GET.publication }}&tag={{ request.GET.tag }}&sort_by={{ request.GET.sort_by }}">&laquo; première</a>
+                <a href="?page={{ page_obj.previous_page_number }}&publication={{ request.GET.publication }}&tag={{ request.GET.tag }}&sort_by={{ request.GET.sort_by }}">précédent</a>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+                {% if num == page_obj.number %}
+                    <span class="current">{{ num }}</span>
+                {% else %}
+                    <a href="?page={{ num }}&publication={{ request.GET.publication }}&tag={{ request.GET.tag }}&sort_by={{ request.GET.sort_by }}">{{ num }}</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}&publication={{ request.GET.publication }}&tag={{ request.GET.tag }}&sort_by={{ request.GET.sort_by }}">suivant</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}&publication={{ request.GET.publication }}&tag={{ request.GET.tag }}&sort_by={{ request.GET.sort_by }}">dernière &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+  </div>
+
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const postIdToOpen = urlParams.get('open_discussion');
+    if (postIdToOpen) {
+      toggleDiscussion(postIdToOpen);
+    }
+  });
+
+  let discussionInterval;
+
+  function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+          const cookies = document.cookie.split(';');
+          for (let i = 0; i < cookies.length; i++) {
+              const cookie = cookies[i].trim();
+              if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                  break;
+              }
+          }
+      }
+      return cookieValue;
+  }
+
+  function toggleDiscussion(postId) {
+    var modal = document.getElementById("discussion-modal-" + postId);
+    var mainContent = document.body; // Target the body element
+
+    if (modal.style.display === "block") {
+      modal.style.display = "none";
+      clearInterval(discussionInterval);
+      mainContent.classList.remove('blurred-background'); // Remove blur
+    } else {
+      modal.style.display = "block";
+      fetchMessages(postId);
+      discussionInterval = setInterval(() => fetchMessages(postId), 5000);
+      mainContent.classList.add('blurred-background'); // Add blur
+    }
+  }
+
+  function toggleModalSize(postId) {
+    var modalContent = document.getElementById("discussion-modal-" + postId).querySelector('.discussion-modal-content');
+    var maximizeButton = document.querySelector(`#discussion-modal-${postId} .maximize-button i`);
+
+    if (modalContent.classList.contains('maximized')) {
+      modalContent.classList.remove('maximized');
+      maximizeButton.classList.remove('fa-compress');
+      maximizeButton.classList.add('fa-expand');
+    } else {
+      modalContent.classList.add('maximized');
+      maximizeButton.classList.remove('fa-expand');
+      maximizeButton.classList.add('fa-compress');
+    }
+  }
+
+  function fetchMessages(postId) {
+    const errorDiv = document.getElementById("discussion-error-" + postId);
+    errorDiv.textContent = '';
+
+    fetch(`/discussion/${postId}/`)
+      .then(response => {
+          if (!response.ok) throw new Error(`Erreur réseau: ${response.statusText}`);
+          return response.json();
+      })
+      .then(data => {
+        const discussionBody = document.getElementById("discussion-body-" + postId);
+        discussionBody.innerHTML = '';
+        // Get the full name of the current user from the Django template context
+        const currentUserFullName = `{{ user.get_full_name|default:user.username }}`;
+
+        data.messages.forEach(msg => {
+          const messageElement = document.createElement('div');
+          messageElement.classList.add('chat-message');
+          // Compare the sender with the current user's full name
+          if (msg.sender === currentUserFullName) {
+            messageElement.classList.add('self');
+          } else {
+            messageElement.classList.add('other');
+          }
+          const date = new Date(msg.timestamp).toLocaleString();
+          messageElement.innerHTML = `
+            <span class="sender">${msg.sender}</span>
+            <span class="message-body">${msg.message}</span>
+            <span class="timestamp">${date}</span>
+          `;
+          discussionBody.appendChild(messageElement);
+        });
+        discussionBody.scrollTop = discussionBody.scrollHeight;
+      })
+      .catch(error => {
+          errorDiv.textContent = `Erreur: Impossible de charger les messages. ${error.message}`;
+      });
+  }
+
+  function sendMessage(postId) {
+    const input = document.getElementById("discussion-input-" + postId);
+    const button = document.getElementById("send-btn-" + postId);
+    const errorDiv = document.getElementById("discussion-error-" + postId);
+    const message = input.value;
+
+    if (message.trim() === '') return;
+
+    const csrfToken = getCookie('csrftoken');
+    errorDiv.textContent = '';
+    button.disabled = true;
+
+    fetch(`/discussion/${postId}/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrfToken,
+      },
+      body: JSON.stringify({ 'message': message }),
+    })
+    .then(response => {
+        if (!response.ok) {
+            if (response.status === 403) {
+                throw new Error('Erreur de sécurité (CSRF). Veuillez rafraîchir la page.');
+            }
+            throw new Error(`Erreur du serveur: ${response.statusText}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+      if (data.status === 'success') {
+        input.value = '';
+        fetchMessages(postId);
+      } else {
+        errorDiv.textContent = `Erreur: ${data.message || 'Réponse invalide du serveur.'}`;
+      }
+    })
+    .catch(error => {
+      errorDiv.textContent = error.message;
+    })
+    .finally(() => {
+        button.disabled = false;
+        button.innerHTML = '<i class="fas fa-paper-plane"></i>';
+    });
+  }
+
+  // Resize logic
+  let currentResizableModal = null;
+  let initialX, initialY, initialWidth, initialHeight, initialLeft, initialTop;
+
+  document.addEventListener('mousedown', function(e) {
+    if (e.target.classList.contains('resize-handle')) {
+      currentResizableModal = e.target.closest('.discussion-modal-content');
+      initialX = e.clientX;
+      initialY = e.clientY;
+      initialWidth = currentResizableModal.offsetWidth;
+      initialHeight = currentResizableModal.offsetHeight;
+      initialLeft = currentResizableModal.offsetLeft;
+      initialTop = currentResizableModal.offsetTop;
+
+      // Determine which handle is being dragged
+      const handleClass = e.target.classList;
+      if (handleClass.contains('resize-handle-br')) {
+        currentResizableModal.resizeDirection = 'br';
+      } else if (handleClass.contains('resize-handle-bl')) {
+        currentResizableModal.resizeDirection = 'bl';
+      } else if (handleClass.contains('resize-handle-tr')) {
+        currentResizableModal.resizeDirection = 'tr';
+      } else if (handleClass.contains('resize-handle-tl')) {
+        currentResizableModal.resizeDirection = 'tl';
+      }
+
+      // Prevent text selection during drag
+      e.preventDefault();
+    }
+  });
+
+  document.addEventListener('mousemove', function(e) {
+    if (currentResizableModal) {
+      const dx = e.clientX - initialX;
+      const dy = e.clientY - initialY;
+
+      let newWidth = initialWidth;
+      let newHeight = initialHeight;
+      let newLeft = initialLeft;
+      let newTop = initialTop;
+
+      switch (currentResizableModal.resizeDirection) {
+        case 'br':
+          newWidth = initialWidth + dx;
+          newHeight = initialHeight + dy;
+          break;
+        case 'bl':
+          newWidth = initialWidth - dx;
+          newHeight = initialHeight + dy;
+          newLeft = initialLeft + dx;
+          break;
+        case 'tr':
+          newWidth = initialWidth + dx;
+          newHeight = initialHeight - dy;
+          newTop = initialTop + dy;
+          break;
+        case 'tl':
+          newWidth = initialWidth - dx;
+          newHeight = initialHeight - dy;
+          newLeft = initialLeft + dx;
+          newTop = initialTop + dy;
+          break;
+      }
+
+      // Apply minimum size constraints
+      if (newWidth > 300) {
+        currentResizableModal.style.width = `${newWidth}px`;
+        if (currentResizableModal.resizeDirection === 'bl' || currentResizableModal.resizeDirection === 'tl') {
+          currentResizableModal.style.left = `${newLeft}px`;
+        }
+      }
+      if (newHeight > 300) {
+        currentResizableModal.style.height = `${newHeight}px`;
+        if (currentResizableModal.resizeDirection === 'tr' || currentResizableModal.resizeDirection === 'tl') {
+          currentResizableModal.style.top = `${newTop}px`;
+        }
+      }
+    }
+  });
+
+  document.addEventListener('mouseup', function() {
+    currentResizableModal = null;
+  });
+
+</script>
+
+{% endblock body %}
+
+{% block extra_head %}
+<link href="{% static 'assets/css/handleblog.css' %}" rel="stylesheet">
+{% endblock extra_head %}
