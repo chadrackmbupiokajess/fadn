@@ -5,7 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7dac10ce-bfea-4376-9842-840226479624" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projet/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/projet/settings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,7 +30,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "dev.sweep.assistant.data.RecentlyUsedFiles": "templates\\handleblog.html;static\\assets\\css\\auth.css;templates\\contacts.html;static\\assets\\css\\style.css;static\\assets\\css\\handleblog.css;templates\\group_list.html;templates\\discussion_group.html;templates\\discussion.html;static\\assets\\css\\message_pages.css;static\\assets\\css\\home.css",
+    "dev.sweep.assistant.data.RecentlyUsedFiles": "projet\\settings.py;templates\\handleblog.html;static\\assets\\css\\auth.css;templates\\contacts.html;static\\assets\\css\\style.css;static\\assets\\css\\handleblog.css;templates\\group_list.html;templates\\discussion_group.html;templates\\discussion.html;static\\assets\\css\\message_pages.css",
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "last_opened_file_path": "C:/Users/Administrateur/Videos/Projet/fadn",
