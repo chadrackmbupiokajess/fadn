@@ -1,0 +1,18 @@
+# Database
+*.sqlite3
+db.sqlite3
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Environment variables
+.env
+
+# Django media and static files
+/media/
+/staticfiles/
+
+# IDE configuration files
+.idea/
+.vscode/
