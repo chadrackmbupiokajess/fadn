@@ -27,15 +27,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-gexs&7__l9&3@2!4qrws-b(ib#!n%_v@ia^g#+v=(4wki^*paq'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['fadn.pythonanywhere.com']
+ALLOWED_HOSTS = ['fadn.pythonanywhere.com','127.0.0.1']
 
 
 # Application definition
 
 INSTALLED_APPS = [
-   # 'django.contrib.admin',
+    #'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -53,7 +53,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-   # 'csp.middleware.CSPMiddleware',  # Ajoute cette ligne pour csp ifram
+    'csp.middleware.CSPMiddleware',  # Ajoute cette ligne pour csp ifram
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
