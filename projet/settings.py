@@ -165,6 +165,20 @@ MATERIAL_ADMIN_SITE = {
     'TRAY_REVERSE':  True,                        # Menu à droite ou gauche
     'NAVBAR_REVERSE':  False,                     # Barre en haut inversée ou non
     'SHOW_COUNTS':  True,
-    # Affiche nombre d’objets
+# 👇 Organisation des apps et icônes
+    'APP_ICONS': {
+        'publication': {
+            'publication': 'mdi-book-open-page-variant',     # Publication principale
+            'aproposs': 'mdi-information-outline',            # À propos
+            'categories': 'mdi-folder-outline',               # Catégories
+            'comments': 'mdi-comment-outline',                # Commentaires
+            'contacts': 'mdi-email-outline',                  # Contacts
+            'notifications': 'mdi-bell-outline',              # Notifications
+        },
+    },
 
+    # 👇 Ordre et regroupement des apps (facultatif mais plus propre)
+    'APP_ORDER': [
+        ('publication', ['publication', 'categories', 'comments', 'contacts', 'notifications', 'aproposs']),
+    ],
 }
