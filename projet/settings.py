@@ -145,3 +145,26 @@ TINYMCE_DEFAULT_CONFIG = {
     'toolbar': 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl',
     'toolbar_mode': 'floating',
 }
+
+
+# ========================
+# CONFIGURATION MATERIAL ADMIN
+# ========================
+
+MATERIAL_ADMIN_SITE = {
+    'HEADER':  'Administration FADN',              # Nom affiché en haut à gauche
+    'TITLE':  'FADN',            # Titre de l’onglet navigateur
+    'FAVICON':  'static/images/favicon.png',      # Icône de l’onglet (mets ton image)
+    #'MAIN_BG_COLOR':  '#3f51b5',                  # Couleur principale (bleu par défaut)
+    #'MAIN_HOVER_COLOR':  '#303f9f',               # Couleur survol menu
+    'PROFILE_PICTURE':  'static/images/favicon.png',  # Photo profil admin
+    #'PROFILE_BG':  'static/images/admin_bg.jpg',  # Image de fond profil
+    'LOGIN_LOGO':  'static/images/favicon.png',      # Logo sur la page de connexion
+    'LOGOUT_BG':  'static/images/logout_bg.jpg',  # Image de fond de la page de déconnexion
+    'SHOW_THEMES':  True,                         # Autorise changement de thème
+    'TRAY_REVERSE':  True,                        # Menu à droite ou gauche
+    'NAVBAR_REVERSE':  False,                     # Barre en haut inversée ou non
+    'SHOW_COUNTS':  True,
+    # Affiche nombre d’objets
+
+}

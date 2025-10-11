@@ -4,6 +4,11 @@ from django import forms
 from .models import *
 from tinymce.widgets import TinyMCE
 
+# --- Admin Site Configuration ---
+#admin.site.site_header = "Administration FADN"
+#admin.site.site_title = "Portail d'administration FADN"
+#admin.site.index_title = "Bienvenue sur le portail d'administration FADN"
+
 # --- Custom Admin Form for About ---
 class AboutAdminForm(forms.ModelForm):
     about_body = forms.CharField(widget=TinyMCE())
