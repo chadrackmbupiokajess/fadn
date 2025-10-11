@@ -151,34 +151,3 @@ TINYMCE_DEFAULT_CONFIG = {
 # CONFIGURATION MATERIAL ADMIN
 # ========================
 
-MATERIAL_ADMIN_SITE = {
-    'HEADER':  'Administration FADN',              # Nom affiché en haut à gauche
-    'TITLE':  'FADN',            # Titre de l’onglet navigateur
-    'FAVICON':  'static/images/favicon.png',      # Icône de l’onglet (mets ton image)
-    #'MAIN_BG_COLOR':  '#3f51b5',                  # Couleur principale (bleu par défaut)
-    #'MAIN_HOVER_COLOR':  '#303f9f',               # Couleur survol menu
-    'PROFILE_PICTURE':  'static/images/favicon.png',  # Photo profil admin
-    #'PROFILE_BG':  'static/images/admin_bg.jpg',  # Image de fond profil
-    'LOGIN_LOGO':  'static/images/favicon.png',      # Logo sur la page de connexion
-    'LOGOUT_BG':  'static/images/logout_bg.jpg',  # Image de fond de la page de déconnexion
-    'SHOW_THEMES':  True,                         # Autorise changement de thème
-    'TRAY_REVERSE':  True,                        # Menu à droite ou gauche
-    'NAVBAR_REVERSE':  False,                     # Barre en haut inversée ou non
-    'SHOW_COUNTS':  True,
-# 👇 Organisation des apps et icônes
-    'APP_ICONS': {
-        'publication': {
-            'publication': 'mdi-book-open-page-variant',     # Publication principale
-            'aproposs': 'mdi-information-outline',            # À propos
-            'categories': 'mdi-folder-outline',               # Catégories
-            'comments': 'mdi-comment-outline',                # Commentaires
-            'contacts': 'mdi-email-outline',                  # Contacts
-            'notifications': 'mdi-bell-outline',              # Notifications
-        },
-    },
-
-    # 👇 Ordre et regroupement des apps (facultatif mais plus propre)
-    'APP_ORDER': [
-        ('publication', ['publication', 'categories', 'comments', 'contacts', 'notifications', 'aproposs']),
-    ],
-}
