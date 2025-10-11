@@ -35,7 +35,7 @@ INSTALLED_APPS = [
 
     'publication',
     'authapp',
-    'froala_editor',
+    'tinymce',
 ]
 
 MIDDLEWARE = [
@@ -135,3 +135,13 @@ EMAIL_HOST_USER = config('EMAIL_USER', default='')
 EMAIL_HOST_PASSWORD = config('EMAIL_PASSWORD', default='')
 
 LOGIN_URL = '/auth/login/'
+
+# TinyMCE configuration
+TINYMCE_DEFAULT_CONFIG = {
+    'height': 360,
+    'width': 1120,
+    'menubar': 'file edit view insert format tools table help',
+    'plugins': 'advlist autolink lists link image charmap print preview anchor',
+    'toolbar': 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl',
+    'toolbar_mode': 'floating',
+}

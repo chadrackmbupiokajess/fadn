@@ -3,7 +3,6 @@
 from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
-import froala_editor.fields
 
 
 class Migration(migrations.Migration):
@@ -20,8 +19,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(max_length=500)),
-                ('about_body', froala_editor.fields.FroalaField()),
-                ('sub_about_body', froala_editor.fields.FroalaField()),
+                ('about_body', models.TextField()),
+                ('sub_about_body', models.TextField()),
                 ('image1_about', models.ImageField(upload_to='image_about')),
                 ('image2_about', models.ImageField(upload_to='image_about')),
                 ('cree', models.TextField(default='Date de création')),
@@ -42,7 +41,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(max_length=255)),
-                ('description', froala_editor.fields.FroalaField()),
+                ('description', models.TextField()),
                 ('img', models.ImageField(upload_to='posts/')),
                 ('timeStamp', models.DateTimeField(auto_now_add=True)),
                 ('authname', models.CharField(default='Andy-Disu', max_length=100)),
@@ -70,7 +69,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('commenter_name', models.CharField(max_length=200)),
-                ('comment_body', froala_editor.fields.FroalaField()),
+                ('comment_body', models.TextField()),
                 ('date_added', models.DateTimeField(auto_now_add=True)),
                 ('commentaire', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comments', to='publication.blogs')),
             ],
@@ -86,7 +85,7 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=25)),
                 ('email', models.EmailField(max_length=254)),
                 ('phonenumber', models.CharField(max_length=10)),
-                ('description', froala_editor.fields.FroalaField()),
+                ('description', models.TextField()),
             ],
         ),
         migrations.CreateModel(
@@ -101,7 +100,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(max_length=1000)),
-                ('description', froala_editor.fields.FroalaField()),
+                ('description', models.TextField()),
                 ('name', models.CharField(max_length=30)),
                 ('video', models.FileField(upload_to='video/%y')),
                 ('heure', models.DateTimeField(auto_now_add=True)),

@@ -1,13 +1,12 @@
 from django.db import models
-from froala_editor.fields import FroalaField
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, redirect
 
 
 class About(models.Model):
     title = models.CharField(max_length=500)
-    about_body = FroalaField()  # Remplacer TextField par FroalaField
-    sub_about_body = FroalaField()  # Remplacer TextField par FroalaField
+    about_body = models.TextField()  # Remplacer TextField par FroalaField
+    sub_about_body = models.TextField()  # Remplacer TextField par FroalaField
     image1_about = models.ImageField(upload_to='image_about')
     image2_about = models.ImageField(upload_to='image_about')
     cree = models.TextField(default='Date de création')
@@ -30,7 +29,7 @@ class Contact(models.Model):
     name = models.CharField(max_length=25)
     email = models.EmailField()
     phonenumber = models.CharField(max_length=10)
-    description = FroalaField()  # Utilisation de FroalaField pour un éditeur de texte riche
+    description = models.TextField()  # Utilisation de FroalaField pour un éditeur de texte riche
 
     def __str__(self):
         return self.name
@@ -47,7 +46,7 @@ class Category(models.Model):
 
 class Blogs(models.Model):
     title = models.CharField(max_length=255)
-    description = FroalaField()
+    description = models.TextField()
     img = models.ImageField(upload_to='posts/', blank=True, null=True)
     video = models.FileField(upload_to='posts/videos/', blank=True, null=True)
     MEDIA_CHOICES = [
@@ -83,9 +82,6 @@ class Tag(models.Model):
     def __str__(self):
         return self.name
 
-from django.db import models
-from django.contrib.auth.models import User
-
 class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     post = models.ForeignKey(Blogs, on_delete=models.CASCADE)
@@ -94,9 +90,6 @@ class Like(models.Model):
     class Meta:
         unique_together = ('user', 'post')  # Un utilisateur peut liker un post une seule fois
 
-
-from django.db import models
-from django.contrib.auth.models import User
 
 class Comment(models.Model):
     commenter_name = models.CharField(max_length=100)

@@ -29,7 +29,7 @@ urlpatterns = [
     #path('ckeditor/',include('ckeditor_uploader.urls')),
     path('contacts/', contact_view, name='contacts'),
     path('success/', TemplateView.as_view(template_name='success.html'), name='success'),  # Optionnel, page de succès
-    path('froala/', include('froala_editor.urls')),
+    path('tinymce/', include('tinymce.urls')),
 ]
 
 if settings.DEBUG:
