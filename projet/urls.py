@@ -20,6 +20,11 @@ from django.conf.urls.static import static
 from publication.views import *
 from django.views.generic import TemplateView
 
+# Personnalisation de l'administration
+admin.site.site_header = "Administration FADN"
+admin.site.site_title = "Administration FADN"
+admin.site.index_title = "Bienvenue sur l'administration FADN"
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('blog/recherche', search,name="search"),
